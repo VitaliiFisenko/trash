@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <p>SSSSS</p>
+    {% for musorka in musorki %}
+        {{ musorka.color }}
+        {{ musorka.counter }}
+        {{ musorka.color }}
+        {{ musorka.user }}
+        <form action="{% url 'musorka:empty' musorka.id %}" method="post">{% csrf_token %}
+        <button>Make empty</button>
+        </form>
+        <form action="{% url 'musorka:full' musorka.id %}" method="post">{% csrf_token %}
+        <button>Top up </button>
+        </form>
+
+    {% endfor %}
+{% endblock %}
