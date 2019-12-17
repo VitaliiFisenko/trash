@@ -9,16 +9,16 @@ from apps.user_profile.models import UserProfile
 
 
 class IndexView(TemplateView):
-    template_name = 'user/base.html'
+    template_name = 'user/main.html'
 
 
-class UserLoginView(LoginView):
-    template_name = 'user/login.html'
-    form_class = UserLoginForm
-
-
-class UserLogoutView(LogoutView):
-    template_name = 'user/logout.html'
+# class UserLoginView(LoginView):
+#     template_name = 'user/login.html'
+#     form_class = UserLoginForm
+#
+#
+# class UserLogoutView(LogoutView):
+#     template_name = 'user/logout.html'
 
 
 class UserRegisterView(CreateView):

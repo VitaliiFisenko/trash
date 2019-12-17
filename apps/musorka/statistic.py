@@ -104,7 +104,7 @@ class StatisticsRequestsCore:
         :return: filtered request Queryset
         """
 
-        subquery = RequestStatusHistoryModel.objects.filter(
+        subquery = MusorkaHistoryModel.objects.filter(
             created__lte=self.date_to,
             created__gte=self.date_from,
             content_type=ContentType.objects.get_for_model(self.req_model)
@@ -164,7 +164,7 @@ class AbstractRequestExportStatistics(StatisticsRequestsCore):
         """
         first_row_by_type = {
             self.obj.BY_COUNTRIES: self.states.exclude(pk=self.no_citizenship.id),
-            self.obj.BY_REGION: DmsuDep.REGIONS_DEP
+            self.obj.BY_REGION: State.REGIONS_DEP
         }
 
         return first_row_by_type[self.obj.statistics_type]

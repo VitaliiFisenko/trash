@@ -8,3 +8,7 @@ class CreateMusorkaForm(forms.ModelForm):
     class Meta:
         model = Musorka
         exclude = ('user', 'counter', 'status')
+
+
+class MusorkaStatisticForm(forms.Form):
+    date = forms.DateTimeField()

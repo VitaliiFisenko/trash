@@ -1,12 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'user/main.html' %}
 
 {% block content %}
     <p>SSSSS</p>
     {% for musorka in musorki %}
         {{ musorka.color }}
         {{ musorka.counter }}
-        {{ musorka.color }}
-        {{ musorka.user }}
         <form action="{% url 'musorka:empty' musorka.id %}" method="post">{% csrf_token %}
         <button>Make empty</button>
         </form>

@@ -1,5 +1,10 @@
-{% extends 'base.html' %}
+{% extends 'user/main.html' %}
+{% load bootstrap4 %}
 
 {% block content %}
-    {{ form }}
+    <form action="" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form form_class='form-group col-md-4'%}
+    <button>Submit</button>
+    </form>
 {% endblock content %}

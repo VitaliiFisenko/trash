@@ -1,13 +1,17 @@
+from datetime import datetime
+
+from django.db.models import Min, Max, Avg
 from django.shortcuts import render, get_object_or_404, redirect
 
 # Create your views here.
 from django.urls import reverse_lazy, reverse
 from django.utils import timezone
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, FormView
 from django.views.generic.base import View, TemplateView
 
-from apps.musorka.forms import CreateMusorkaForm
+from apps.musorka.forms import CreateMusorkaForm, MusorkaStatisticForm
 from apps.musorka.models import Musorka, MusorkaHistoryModel
+# from apps.musorka.statistic import AbstractRequestExportStatistics
 from apps.musorka.statistic import AbstractRequestExportStatistics
 
 
@@ -28,9 +32,8 @@ class CreateMusorka(CreateView):
 
     def form_valid(self, form):
         musorka = form.save(commit=False)
-        user = self.request.user
-        musorka.user.add(user)
         musorka.save()
+        musorka.user.add(self.request.user)
         MusorkaHistoryModel.objects.create(musorka=musorka, empty_time=timezone.now())
         return super().form_valid(form)
 
@@ -56,28 +59,29 @@ class Empty(View):
         return redirect(reverse('musorka:musorki'))
 
 
-class MusorkaStatistic(TemplateView):
+class MusorkaStatistic(FormView):
+    form_class = MusorkaStatisticForm
     template_name = 'musorka/statistic.html'
 
 
     def get_context_data(self, **kwargs):
-        musorka = get_object_or_404(Musorka, pk=self.kwargs['pk'])
 
-        month_count = self.__get_stat_per_month(musorka)
+        month_count, cont = self.__get_stat_per_month()
 
         context = super().get_context_data(**kwargs)
 
         context.update({
-            'month': month_count,
+            'mon': month_count,
+            'cont': cont,
         })
         return context
 
-    def __get_stat_per_month(self, musorka):
-        qs = MusorkaHistoryModel.objects.filter(musorka=musorka, full_time__month=12)
-        return qs.last().counter - qs.first().counter
+    def __get_stat_per_month(self):
+        date = datetime.strptime(self.request.GET.get('date'), '%d-%m-%Y')
+        AbstractRequestExportStatistics(date)
+        qs = MusorkaHistoryModel.objects.filter(full_time__lte=date).aggregate(Min('counter'), Max('counter'), Avg('counter'))
+        return qs, Musorka.objects.filter(created__lte=date)
 
-    def get_stats(self):
-        return AbstractRequestExportStatistics.get_table_content()
 
 
 

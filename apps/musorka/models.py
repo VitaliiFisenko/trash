@@ -2,14 +2,18 @@ from colorful.fields import RGBColorField
 from django.db import models
 
 # Create your models here.
+from django_extensions.db.models import TimeStampedModel
+
 from apps.core.files_paths import musorka_image_path
 from apps.user_profile.models import UserProfile
 
 
-class Musorka(models.Model):
+class Musorka(TimeStampedModel):
 
     EMPTY = 1
     FULL = 2
+
+
 
     STATUS_CHOICES = ((EMPTY, 'empty'), (FULL, 'full'))
 

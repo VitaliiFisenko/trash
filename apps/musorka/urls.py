@@ -9,5 +9,5 @@ urlpatterns = [
     path('musorka/create/', views.CreateMusorka.as_view(), name='create'),
     path('musorka/empty/<int:pk>/', views.Empty.as_view(), name='empty'),
     path('musorka/full/<int:pk>/', views.Full.as_view(), name='full'),
-    path('musorka/statistic/<int:pk>/', views.MusorkaStatistic.as_view(), name='statistic'),
+    path('musorka/statistic/', views.MusorkaStatistic.as_view(), name='statistic'),
 ]

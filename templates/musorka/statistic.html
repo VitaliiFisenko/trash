@@ -1,5 +1,39 @@
-{% extends 'base.html' %}
+{% extends 'user/main.html' %}
 
 {% block content %}
-    {{ month }}
+{#    {{ mon|safe }}#}
+{#    {{ cont|safe }}#}
+{#    <form>#}
+{#    {{ form }}#}
+{#    <button type="submit">Get stat</button>#}
+{#    </form>#}
+    <div id="container"></div>
+  <script src="https://code.highcharts.com/highcharts.src.js"></script>
+  <script>
+    Highcharts.chart('container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'System garbage box statistic'
+        },
+        xAxis: {
+            categories: ['Africa', 'America', 'Asia', 'Europe']
+        },
+        series: [{
+            name: 'Year 2017',
+            data: [997, 963, 4009, 756]
+        }, {
+            name: 'Year 2018',
+            data: [1054, 1005, 3965, 800]
+        }, {
+            name: 'Year 2019',
+            data: [1052, 954, 4250, 740]
+        },
+            {
+            name: 'Year 2020 (prediction)',
+            data: [1052, 954, 4250, 740]
+        }]
+    });
+  </script>
 {% endblock content %}

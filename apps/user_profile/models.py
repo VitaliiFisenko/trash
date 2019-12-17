@@ -17,3 +17,11 @@ class UserProfile(AbstractUser):
                                     null=True)
 
 
+class State(models.Model):
+    REGIONS_DEP = 1
+
+
+    country = models.CharField(max_length=100)
+    region = models.CharField(max_length=50)
+
+
